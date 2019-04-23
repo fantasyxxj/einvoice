@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- 文件输出日志(DEBUG) -->
+	<appender name="debug-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>logs/datashow.log</File>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	      <fileNamePattern>logs/history/hola-search-%d{yyyy-MM-dd}.log</fileNamePattern>
+	      <maxHistory>60</maxHistory>
+	    </rollingPolicy>
+		<encoder charset="UTF-8">
+			<Pattern>[%d{HH:mm:ss}] [%thread] |%level| %marker %logger{50} -> %X{rpid} %msg %n%ex</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder charset="UTF-8">
+			<Pattern>[%d{HH:mm:ss}] [%thread] |%level| %marker %logger{50} -> %X{rpid} %msg %n%ex</Pattern>
+		</encoder>
+	</appender>
+
+
+	<root level="debug">
+		<appender-ref ref="debug-file"/>
+		<appender-ref ref="console"/>
+	</root>
+
+
+	
+	<logger name="org" level="WARN" additivity="false">
+		<appender-ref ref="debug-file"/>
+		<appender-ref ref="console"/>
+	</logger>
+
+</configuration>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>电子发票识别</title>
+	<link rel="shortcut icon" href="favicon.ico" tppabs="http://www.zi-han.net/theme/hplus/favicon.ico">
+    <link href="css/bootstrap.min.css-v=3.3.5.css" tppabs="http://www.zi-han.net/theme/hplus/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="css/font-awesome.min.css-v=4.4.0.css" tppabs="http://www.zi-han.net/theme/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.min.css" tppabs="http://www.zi-han.net/theme/hplus/css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css-v=4.0.0.css" tppabs="http://www.zi-han.net/theme/hplus/css/style.min.css?v=4.0.0" rel="stylesheet">
+    
+     <script src="js/jquery.min.js"></script>
+ <script src="js/jsrender.min.js"></script>
+</head>
+<body  class="gray-bg">
+<center><h1>电子发票识别</h1></center>
+	<div class="ibox-content">
+		<div class="row">
+             <div class="col-md-4"></div>
+             <div class="col-md-4">
+             <h3 class="m-t-none m-b">选择电子发票文件</h3>
+                <form role="form" id="form1">
+                    <div class="form-group">
+                        <label>电子发票文件</label>
+                        <input type="file" id="f" name="f" class="form-control" accept="application/pdf"/>
+                    </div>
+                   
+                    <div>
+                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="button"><strong>提 交</strong>
+                        </button>
+                       
+                    </div>
+                </form>
+             </div>
+             <div class="col-md-4"></div>
+        </div>
+    </div>
+                      
+	
+	
+	<script id="inv-tpl"  type="text/x-jsrender">
+		<div class="row">
+			<center><h1>{{:invoice.title}}</h1></center>
+		</div>
+		<div class="row" >
+			<div class="col-md-4">机器编号：{{:invoice.jqbh}}</div>
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<ul class="unstyled">
+	                <li>发票代码：{{:invoice.fpdm}}</li>
+	                <li>发票号码：{{:invoice.fphm}}</li>
+	                <li>开票日期：{{:invoice.kprq}}</li>
+	                <li>校验码:{{:invoice.jym}}</li>
+	           </ul>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-6">
+				<p>购买方</p>
+				<ul class="unstyled">
+					<li>名称：{{:invoice.mc1}}</li>
+					<li>纳税人识别号：{{:invoice.nsrsbh1}}</li>
+					<li>地址、电话：{{:invoice.dzdh}}</li>
+					<li>开户行及账号：{{:invoice.khhjzh}}</li>
+				</ul>
+			</div>
+			<div class="col-md-6">
+			<p>密码区</p>
+			{{:invoice.mmq}}
+			</div>
+		</div>
+		<div class="row">
+			<table class="table table-bordered">
+                            <thead>
+                                <tr>
+				{{if type == '01'}}
+									<th>项目名称</th>
+                                    <th>车牌号</th>
+                                    <th>类型</th>
+                                    <th>通行日期起</th>
+                                    <th>通行日期止</th>
+				{{else}}
+									<th>货物或应税劳务、服务名称</th>
+                                    <th>规格型号</th>
+                                    <th>单位</th>
+                                    <th>数 量</th>
+                                    <th>单 价</th>
+				{{/if}}
+                                    <th>金 额</th>
+                                    <th>税率</th>
+                                    <th>税 额</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+{{if type == '01'}}
+				{{for detail}}
+                                <tr>
+				
+									<td style="text-align:left">{{: #data.xmmc}}</td>
+                                    <td style="text-align:left">{{: #data.cph}}</td>
+                                    <td style="text-align:left">{{: #data.lx}}</td>
+                                    <td style="text-align:left">{{: #data.rqq}}</td>
+                                    <td style="text-align:left">{{: #data.rqz}}</td>
+									<td style="text-align:right">{{: #data.je}}</td>
+                                    <td style="text-align:right">{{: #data.sl * 100}}%</td>
+                                    <td style="text-align:right">{{: #data.se}}</td>
+								</tr>
+				{{/for}}
+{{else}}
+				{{for detail}}
+								<tr>
+                                    <td style="text-align:left">{{: #data.wwmc}}</td>
+                                    <td style="text-align:left">{{: #data.ggxh}}</td>
+                                    <td style="text-align:left">{{: #data.dw}}</td>
+                                    <td style="text-align:right">{{: #data.count}}</td>
+                                    <td style="text-align:right">{{: #data.dj}}</td>
+                                    <td style="text-align:right">{{: #data.je}}</td>
+                                    <td style="text-align:right">{{: #data.sl * 100}}%</td>
+                                    <td style="text-align:right">{{: #data.se}}</td>
+                                </tr>
+				{{/for}}
+{{/if}}
+								<tr>
+									<td colspan=8>&nbsp;</td>
+								</tr>
+                                <tr>
+                                	<td>合计</td>
+                                	<td colspan="4">&nbsp;</td>
+                                	<td style="text-align:right">{{:invoice.hjje}}</td>
+                                	<td>&nbsp;</td>
+                                	<td style="text-align:right">{{:invoice.hjse}}</td>
+                                </tr>
+                                <tr>
+                                	<td>税价合计：</td>
+                                	<td colspan="7">（大写）：{{:invoice.jshjdx}}        （小写）￥{{:invoice.jshjxx}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<p>销售方</p>
+				<ul class="unstyled">
+					<li>名称：{{:invoice.mc2}}</li>
+					<li>纳税人识别号：{{:invoice.nsrsbh2}}</li>
+					<li>地址、电话：{{:invoice.dzdh2}}</li>
+					<li>开户行及账号：{{:invoice.khhjzh2}}</li>
+				</ul>
+			</div>
+			<div class="col-md-6">
+				<p>备注</p>
+			</div>
+		</div>
+		<div class="row">
+             <div class="col-md-4">收款人：{{:invoice.skr}}</div>
+             <div class="col-md-4">复核：{{:invoice.fh}}</div>
+             <div class="col-md-4">开票人：{{:invoice.kpr}}</div>
+        </div>
+        </script>
+    <div class="ibox-content" id="detail">
+	</div>
+        
+  
+   
+
+ <script  type="text/javascript">
+ $(".btn-sm").click(function () {
+    
+ 		if($("#f").val() == "")
+ 		{
+ 			alert("请选择文件！")
+ 			return false;
+ 		}else
+ 		{
+ 			var fd = new FormData(document.getElementById("form1"));
+ 			 $.ajax({
+	 				url: "/invoice/extrat",
+	 			  	type: "POST",
+	 			  	data: fd,
+	 			  	dataType: "json",
+	 			  	processData: false,  // 不处理数据
+	 			  	contentType: false,   // 不设置内容类型
+	 			 	success: function (data) {
+	 			 		//alert(JSON.stringify(data));
+	 			 		$("#detail").empty();
+	 			 		var tpl = $.templates("#inv-tpl");
+	 			 		
+	 			 		//处理一下数据
+	 			 		
+	 			 		data.invoice.mmq = data.invoice.mmq.replace("<","&lt;");
+	 			 		data.invoice.mmq = data.invoice.mmq.replace(">","&gt;");
+	 			 		data.invoice.mmq = data.invoice.mmq.replace(/\n/g,"<br>");
+	 			 		$('#detail').append(tpl.render(data));
+	 			 		
+	 			 		
+	 			 		//alert(JSON.stringify(invTmp.render(data)));
+	 			 			
+	             	},
+	             	error: function(xhr, status, response)
+	             	{
+	             		alert(xhr.responseText);
+	             	}
+	
+ 				});
+ 			}
+ 	});
+ </script>
+ 
+</body>
+</html>
